@@ -29,7 +29,7 @@ services:
       
   # The PHP container
   locaties_component:
-    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-php:latest
+    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-component:latest
     build:
       context: ./ 
       dockerfile: docker/php/Dockerfile
