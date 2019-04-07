@@ -3,19 +3,23 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 
+
 /**
- * Persoon
+ * Locatie
  * 
- * Beschrijving
+ * Een locatie object beschrijft een bag locatie of deel daarvan, als stapelbaar object kan alles betreffen van een kantoor gebouw tot specifieke kamer. 
  * 
  * @category   	Entity
  *
@@ -25,21 +29,21 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *
  * @link   		http//:www.conduction.nl
  * @package		Common Ground
- * @subpackage  BRP
+ * @subpackage  Locatie
  * 
  *  @ApiResource( 
  *  collectionOperations={
  *  	"get"={
  *  		"normalizationContext"={"groups"={"read"}},
  *  		"denormalizationContext"={"groups"={"write"}},
- *      	"path"="/personen",
+ *      	"path"="/locaties",
  *  		"openapi_context" = {
  *  		}
  *  	},
  *  	"post"={
  *  		"normalizationContext"={"groups"={"read"}},
  *  		"personen"={"groups"={"write"}},
- *      	"path"="/personen",
+ *      	"path"="/locaties",
  *  		"openapi_context" = {
  *  		}
  *  	}
@@ -48,27 +52,27 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     "get"={
  *  		"normalizationContext"={"groups"={"read"}},
  *  		"denormalizationContext"={"groups"={"write"}},
- *      	"path"="/personen/{id}",
+ *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
  *  		}
  *  	},
  *     "put"={
  *  		"normalizationContext"={"groups"={"read"}},
  *  		"denormalizationContext"={"groups"={"write"}},
- *      	"path"="/personen/{id}",
+ *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
  *  		}
  *  	},
  *     "delete"={
  *  		"normalizationContext"={"groups"={"read"}},
  *  		"denormalizationContext"={"groups"={"write"}},
- *      	"path"="/personen/{id}",
+ *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
  *  		}
  *  	},
  *     "log"={
  *         	"method"="GET",
- *         	"path"="/personen/{id}/log",
+ *         	"path"="/locaties/{id}/log",
  *          "controller"= HuwelijkController::class,
  *     		"normalization_context"={"groups"={"read"}},
  *     		"denormalization_context"={"groups"={"write"}},
@@ -97,12 +101,12 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     },
  *     "revert"={
  *         	"method"="POST",
- *         	"path"="/personen/{id}/revert/{version}",
+ *         	"path"="/locaties/{id}/revert/{version}",
  *          "controller"= HuwelijkController::class,
  *     		"normalization_context"={"groups"={"read"}},
  *     		"denormalization_context"={"groups"={"write"}},
  *         	"openapi_context" = {
- *         		"summary" = "Versie terugdraaid",
+ *         		"summary" = "Versie teruggedraaid",
  *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
  *          	"consumes" = {
  *              	"application/json",
@@ -134,20 +138,21 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     message="De identificatie dient uniek te zijn voor de bronOrganisatie"
  * )
  */
-class Persoon implements StringableInterface
+
+class Locatie implements StringableInterface
 {
 	/**
-	 * Het identificatie nummer van deze Persoon <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
-	 * 
+	 * The identifacition number van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production
+	 *
 	 * @var int|null
 	 *
 	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer", options={"unsigned": true})
-	 * @Groups({"read", "write"})
-	 * @ApiProperty(iri="https://schema.org/identifier")
+	 * @ORM\GeneratedValue()
+	 * @ORM\Column(type = "integer",options={"unsigned": true})
+	 * @ApiProperty(iri="https://schema.org/identifier", identifier=true)
+	 * @Groups({"read"})
 	 */
-	public $id;
+	private $id;
 	
 	/**
 	 * De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
@@ -178,176 +183,190 @@ class Persoon implements StringableInterface
 	public $identificatie;
 	
 	/**
-	 * Het huwelijk waartoe deze partner behoort
+	 * De Organisatie waartoe deze locatie behoort.
 	 *
 	 * @var \App\Entity\Organisatie
-	 * @ORM\ManyToOne(targetEntity="\App\Entity\Organisatie", cascade={"persist", "remove"}, inversedBy="personen")
+	 * @ORM\ManyToOne(targetEntity="\App\Entity\Organisatie", cascade={"persist", "remove"}, inversedBy="locaties")
 	 * @ORM\JoinColumn(referencedColumnName="id")
 	 *
 	 */
 	public $bronOrganisatie;
 	
 	/**
-	 * De naam van deze persoon <br /><b>Schema:</b> <a href="https://schema.org/givenName">https://schema.org/givenName</a>
-	 *
-	 * @var string
-	 * 
-	 * @ORM\Column(
-	 *     type     = "string",
-	 *     length   = 255,
-	 *     nullable = true,
-	 * )
-	 * @Assert\Length(
-	 *      min = 2,
-	 *      max = 255,
-	 *      minMessage = "De voornaam moet tenminste {{ limit }} karakters lang zijn",
-	 *      maxMessage = "De voornaam kan niet langer dan {{ limit }} karakters zijn"
-	 * )
-	 * @Groups({"read", "write"})
-	 * @ApiProperty(
-	 * 	   iri="http://schema.org/name",
-	 *     attributes={
-	 *         "openapi_context"={
-	 *             "type"="string",
-	 *             "maxLength"=255,
-	 *             "minLength"=2,
-	 *             "example"="John"
-	 *         }
-	 *     }
-	 * )
-	 * @Gedmo\Versioned
-	 **/
-	public $voornamen;
-	
-	/**
-	 * Voorvoegsel van de achternaam <br /><b>Schema:</b> <a href="https://schema.org/givenName">https://schema.org/givenName</a>
-	 *
-	 * @var string
+	 * URL-referentie naar het afbeeldings document.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
-	 *     length   = 255,
-	 *     nullable = true,
-	 * )
-	 * @Assert\Length(
-	 *      min = 2,
-	 *      max = 255,
-	 *      minMessage = "Het voorvoegsel moet tenminste {{ limit }} karakters lang zijn",
-	 *      maxMessage = "Het voorvoegsel kan niet langer dan {{ limit }} karakters zijn"
+	 *     nullable = true
 	 * )
 	 * @Groups({"read", "write"})
 	 * @ApiProperty(
-	 * 	   iri="http://schema.org/name",
 	 *     attributes={
 	 *         "openapi_context"={
-	 *             "type"="string",
+	 *             "title"="BRP",
+	 *             "type"="url",
+	 *             "example"="https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65",
+	 *             "required"="true",
 	 *             "maxLength"=255,
-	 *             "minLength"=2,
-	 *             "example"="van der"
+	 *             "format"="uri",
+	 *             "description"="URL-referentie naar de BRP inschrijving van dit persoon"
 	 *         }
 	 *     }
 	 * )
 	 * @Gedmo\Versioned
-	 **/	
-	public $voorvoegselGeslachtsnaam;
+	 */
+	public $afbeelding;
 	
 	/**
-	 * De achternaam van deze persoon <br /><b>Schema:</b> <a href="https://schema.org/familyName">https://schema.org/familyName</a>
-	 *
-	 * @var string
+	 * URL-referentie naar het film document.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
-	 *     length   = 255, 
-	 *     nullable = true,
-	 * )
-	 * @Assert\Length(
-	 *      min = 2,
-	 *      max = 255,
-	 *      minMessage = "De geslachtsnaam moet tenminste {{ limit }} karakters lang zijn",
-	 *      maxMessage = "De geslachtsnaam kan niet langer dan {{ limit }} karakters zijn"
+	 *     nullable = true
 	 * )
 	 * @Groups({"read", "write"})
 	 * @ApiProperty(
-	 * 	   iri="http://schema.org/name",
 	 *     attributes={
 	 *         "openapi_context"={
-	 *             "type"="string",
+	 *             "title"="BRP",
+	 *             "type"="url",
+	 *             "example"="https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65",
+	 *             "required"="true",
 	 *             "maxLength"=255,
-	 *             "minLength"=2,
-	 *             "example"="Do"
+	 *             "format"="uri",
+	 *             "description"="URL-referentie naar de BRP inschrijving van deze persoon"
 	 *         }
 	 *     }
 	 * )
 	 * @Gedmo\Versioned
-	 **/
-	public $geslachtsnaam;	
+	 */
+	public $film;
 	
 	/**
-	 * Het emailadres van deze persoon <br /><b>Schema:</b> <a href="https://schema.org/email">https://schema.org/email</a>
+	 * URL-referentie naar de BAG inschrijving van deze locatie.
 	 *
 	 * @var string
-	 *
+     * @Gedmo\Versioned
 	 * @ORM\Column(
 	 *     type     = "string",
-	 *     length   = 255, 
-	 *     nullable = true,
-	 * )
-	 * @Assert\Email(
-     *     message = "Het emailadres '{{ value }}' is geen geldig emailadres.",
-     *     checkMX = true
-     * )
-	 * @Assert\Length(
-	 *      min = 8,
-	 *      max = 255,
-	 *      minMessage = "Het emailadres moet minimaal  {{ limit }} tekens lang zijn",
-	 *      maxMessage = "Het emailadres mag maximaal {{ limit }} tekens lang zijn"
+	 *     nullable = true
 	 * )
 	 * @Groups({"read", "write"})
 	 * @ApiProperty(
-	 * 	   iri="http://schema.org/name",
 	 *     attributes={
 	 *         "openapi_context"={
-	 *             "type"="email",
-	 *             "maxLength"=255,
-	 *             "minLength"=8,
-	 *             "example"="john@do.nl"
+	 *             "title"="BAG",
+	 *             "type"="string",
+	 *             "example"="https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65",
+	 *             "required"="true",
+	 *             "maxLength"=200,
+	 *             "format"="uri",
+	 *             "description"="URL-referentie naar de BAG inschrijving van deze locatie"
 	 *         }
 	 *     }
 	 * )
-	 * @Gedmo\Versioned
-	 **/
-	public $emailadres;
+	 */
+	public $bag;
 	
 	/**
-	 * Het telefoonnummer van deze persoon <br /><b>Schema:</b> <a href="https://schema.org/telephone">https://schema.org/telephone</a>
+	 * De naam van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>
 	 *
 	 * @var string
 	 *
+     * @Gedmo\Translatable
+     * @Gedmo\Versioned
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     length   = 255
+	 * )
+	 * @Assert\NotNull
 	 * @Assert\Length(
-	 *      min = 10,
+	 *      min = 5,
 	 *      max = 255,
-	 *      minMessage = "Het telefoonnummer moet minimaal {{ limit }} tekens lang zijn",
-	 *      maxMessage = "Het telefoonnummer mag maximaal {{ limit }} tekens lang zijn"
+	 *      minMessage = "De naam moet ten minste {{ limit }} karakters lang zijn",
+	 *      maxMessage = "De naam kan niet langer dan {{ limit }} karakters zijn"
 	 * )
 	 * @Groups({"read", "write"})
 	 * @ApiProperty(
-	 * 	   iri="http://schema.org/name",
-	 *     attributes={
-	 *         "openapi_context"={
-	 *             "type"="string",
+	 * 	   iri="http://schema.org/name",	 
+     *     attributes={
+     *         "swagger_context"={
+     *             "type"="string",
+	 *             "minLength"=5,
 	 *             "maxLength"=255,
-	 *             "minLength"=10,
-	 *             "example"="+31(0)6-12345678"
+     *             "example"="Trouwzaal"
+     *         }
+     *     }
+	 * )
+	 **/
+	public $naam;
+	
+	/**
+	 * Een samenvattende tekst over deze locatie  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>
+	 *
+	 * @var string
+	 *
+     * @Gedmo\Translatable
+     * @Gedmo\Versioned
+	 * @ORM\Column(
+	 *     type     = "text"
+	 * )
+	 * @Assert\NotNull
+	 * @Assert\Length(
+	 *      min = 25,
+	 *      max = 2000,
+	 *      minMessage = "Your first name must be at least {{ limit }} characters long",
+	 *      maxMessage = "Your first name cannot be longer than {{ limit }} characters")
+	 *
+	 * @Groups({"read", "write"})
+	 * @ApiProperty(
+	 * 	  iri="https://schema.org/description",
+	 *     attributes={
+	 *         "swagger_context"={
+	 *             "type"="string",
+	 *             "minLength"=25,
+	 *             "maxLength"=2000,
+	 *             "example"="Deze prachtige locatie is zeker het aanbevelen waard"
 	 *         }
 	 *     }
 	 * )
-	 * @Gedmo\Versioned
 	 **/
-	public $telefoonnummer;
+	public $samenvatting;
 	
+	/** 
+	 * Een beschrijvende tekst over deze locatie  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>
+	 *
+	 * @var string
+	 *
+     * @Gedmo\Translatable
+     * @Gedmo\Versioned
+	 * @ORM\Column(
+	 *     type     = "text"
+	 * )
+	 * @Assert\NotNull
+	 * @Assert\Length(
+	 *      min = 25,
+	 *      max = 2000,
+	 *      minMessage = "Your first name must be at least {{ limit }} characters long",
+	 *      maxMessage = "Your first name cannot be longer than {{ limit }} characters")
+	 *
+	 * @Groups({"read", "write"})
+	 * @ApiProperty(
+	 * 	  iri="https://schema.org/description",	 
+     *     attributes={
+     *         "swagger_context"={
+     *             "type"="string",
+	 *             "minLength"=25,
+	 *             "maxLength"=2000,
+     *             "example"="Deze uitsterst sfeervolle trouwzaal is de droom van ieder koppel"
+     *         }
+     *     }
+	 * )
+	 **/
+	public $beschrijving;
+		
 	/**
-	 * URL-referentie naar de agenda van dit persoon
+	 * URL-referentie naar de agenda van deze locatie
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -362,7 +381,7 @@ class Persoon implements StringableInterface
 	 *             "required"="true",
 	 *             "maxLength"=255,
 	 *             "format"="uri",
-	 *             "description"="URL-referentie naar de agenda van deze persoon"
+	 *             "description"="URL-referentie naar de agenda van deze locatie"
 	 *         }
 	 *     }
 	 * )
@@ -371,7 +390,7 @@ class Persoon implements StringableInterface
 	public $agenda;
 	
 	/**
-	 * Het tijdstip waarop dit object is aangemaakt.
+	 * Het tijdstip waarop deze entiteit is aangemaakt
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="create")
@@ -384,7 +403,7 @@ class Persoon implements StringableInterface
 	public $registratiedatum;
 	
 	/**
-	 * Het tijdstip waarop dit object voor het laatst is gewijzigd.
+	 * Het tijdstip waarop deze entiteit voor het laats is gewijzigd
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="update")
@@ -395,50 +414,85 @@ class Persoon implements StringableInterface
 	 * )
 	 * @Groups({"read"})
 	 */
-	public $wijzigingsdatum;
-		
+	public $wijzigingsdatum;	
+	
 	/**
-	 * De taal waarin de informatie van  dit object is opgesteld <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>
+	 * De taal waarin de informatie van deze locatie is opgesteld <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>
 	 *
 	 * @var string Een Unicode language identifier, ofwel RFC 3066 taalcode.
 	 *
+     * @Gedmo\Versioned
 	 * @ORM\Column(
 	 *     type     = "string",
-	 *     length   = 17
+	 *     length   = 2
 	 * )
 	 * @Groups({"read", "write"})
 	 * @Assert\Language
-	 * @Assert\Length(
-	 *      min = 2,
-	 *      max = 17,
-	 *      minMessage = "De taal moet tenminste {{ limit }} karakters lang zijn",
-	 *      maxMessage = "De taal kan niet langer dan {{ limit }} karakters zijn"
-	 * )
 	 * @ApiProperty(
 	 *     attributes={
-	 *         "openapi_context"={
+	 *         "swagger_context"={
 	 *             "type"="string",
-	 *             "maxLength"=17,
-	 *             "minLength"=2,
 	 *             "example"="NL"
 	 *         }
 	 *     }
 	 * )
-	 * @Gedmo\Versioned
 	 **/
 	public $taal = 'nl';
+	
+	/**
+	 * Producten die bij deze locatie horen.
+	 *
+	 * @var array
+	 * @ORM\Column(
+	 *  	type="array", 
+	 *  	nullable=true
+	 *  )
+	 * @Groups({"read", "write"})
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="producten",
+	 *             "type"="array",
+	 *             "example"="[]",
+	 *             "description"="Producten die bij deze locatie horen"
+	 *         }
+	 *     }
+	 * )
+	 */	
+	public $producten;
+	
+	/**
+	 * De contactpersoon voor deze locatie.
+	 *
+	 * @ORM\Column(
+	 *     type     = "string",
+	 *     nullable = true
+	 * )
+	 * @Groups({"read", "write"})
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="Contactpersoon",
+	 *             "type"="url",
+	 *             "example"="https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65",
+	 *             "required"="true",
+	 *             "maxLength"=255,
+	 *             "format"="uri",
+	 *             "description"="URL-referentie naar de BRP inschrijving van dit persoon"
+	 *         }
+	 *     }
+	 * )
+	 * @Gedmo\Versioned
+	 */
+	public $contactPersoon;
 	
 	/**
 	 * @return string
 	 */
 	public function toString(){
-		// If there is a voorvoegselGeslachtsnaam we want to add a save between voorvoegselGeslachtsnaam and geslachtsnaam;
-		$voorvoegselGeslachtsnaam = $this->voorvoegselGeslachtsnaam;
-		if($voorvoegselGeslachtsnaam){$voorvoegselGeslachtsnaam=$voorvoegselGeslachtsnaam.' ';}
-		// Lets render the name
-		return "{$this->voornamen} {$voorvoegselGeslachtsnaam}{$this->geslachtsnaam}";
+		return $this->naam;
 	}
-	
+		
 	/**
 	 * Vanuit rendering perspectief (voor bijvoorbeeld logging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten.
 	 */
@@ -447,38 +501,58 @@ class Persoon implements StringableInterface
 		return $this->toString();
 	}
 	
-	/* @todo registratie datum */
-		
-	public function getHuwelijkspartner()
+	/**
+	 * The pre persist function is called when the enity is first saved to the database and allows us to set some aditional first values
+	 *
+	 * @ORM\PrePersist
+	 */
+	public function prePersist()
 	{
-		return $this->huwelijkspartner;
-	}
-	
-	public function setHuwelijkspartner($huwelijkspartner)
-	{
-		$this->huwelijkspartner = $huwelijkspartner;
+		$this->registratieDatum = new \ Datetime();
+		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
 		return $this;
-	} 
-	
-	public function getEmailadres()
-	{
-		return $this->emailadres;
 	}
 	
-	public function setEmailadres($emailadres)
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId(): ?int
 	{
-		$this->emailadres = $emailadres;
+		return $this->id;
 	}
 	
-	public function getTelefoonnummer()
+	/**
+	 * Add Product
+	 *
+	 * @param  \App\Entity\Product $product
+	 * @return Order
+	 */
+	public function addProduct(\App\Entity\Product $product)
 	{
-		return $this->telefoonnummer;
+		$this->products[] = $product;
+		
+		return $this;
 	}
 	
-	public function setTelefoonnummer($telefoonnummer)
+	/**
+	 * Remove Product
+	 *
+	 * @param \App\Entity\Product $product
+	 */
+	public function removeProduct(\App\Entity\Product $product)
 	{
-		$this->telefoonnummer = $telefoonnummer;
-	}	
+		$this->products->removeElement($product);
+	}
 	
-	
+	/**
+	 * Get Product
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getProducts()
+	{
+		return $this->products;
+	}
 }
