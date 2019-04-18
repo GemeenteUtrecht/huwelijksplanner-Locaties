@@ -28,8 +28,8 @@ services:
       - "3306:3306"
       
   # The PHP container
-  locaties_component:
-    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-component:latest
+  locaties-component:
+    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-component:V.0.0.1
     build:
       context: ./ 
       dockerfile: docker/php/Dockerfile
@@ -42,8 +42,8 @@ services:
       - ./:/srv/api:rw,cached
       
   # The NGINX container
-  locaties_api:
-    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-nginx:latest
+  locaties-api:
+    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-nginx:V.0.0.1
     build: 
       context: ./ 
       dockerfile: docker/nginx/Dockerfile
@@ -51,7 +51,7 @@ services:
         - ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}_php
         - ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}_api  
     depends_on:
-      - locaties_component
+      - locaties-component
     volumes:
       - ./public:/srv/api/public:ro
     ports:
