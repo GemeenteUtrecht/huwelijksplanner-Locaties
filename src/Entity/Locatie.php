@@ -38,6 +38,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/locaties",
  *  		"openapi_context" = {
+ * 				"summary" = "Haalt een verzameling van locaties op"
  *  		}
  *  	},
  *  	"post"={
@@ -45,6 +46,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"personen"={"groups"={"write"}},
  *      	"path"="/locaties",
  *  		"openapi_context" = {
+ * 				"summary" = "Maak een locatie aan"
  *  		}
  *  	}
  *  },
@@ -54,6 +56,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
+ * 				"summary" = "Haal een specifieke locatie op"
  *  		}
  *  	},
  *     "put"={
@@ -61,6 +64,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
+ * 				"summary" = "Vervang een specifieke locatie"
  *  		}
  *  	},
  *     "delete"={
@@ -68,6 +72,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
+ * 				"summary" = "Verwijder een specifieke locatie"
  *  		}
  *  	},
  *     "log"={
@@ -94,7 +99,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Huwelijk of aanvraag niet gevonden"
+ *         				"description" = "locatie niet gevonden"
  *         			}
  *            	}            
  *         }
@@ -123,7 +128,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *         				"description" = "Ongeldige aanvraag"
  *         			},
  *         			"404" = {
- *         				"description" = "Huwelijk of aanvraag niet gevonden"
+ *         				"description" = "Locatie niet gevonden"
  *         			}
  *            	}            
  *         }
@@ -142,7 +147,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Locatie implements StringableInterface
 {
 	/**
-	 * The identifacition number van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production
+	 * Het identifacitie nummer van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production
 	 *
 	 * @var int|null
 	 *
@@ -283,8 +288,8 @@ class Locatie implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 5,
 	 *      max = 255,
-	 *      minMessage = "De naam moet ten minste {{ limit }} karakters lang zijn",
-	 *      maxMessage = "De naam kan niet langer dan {{ limit }} karakters zijn"
+	 *      minMessage = "De naam moet ten minste {{ limit }} tekens lang zijn",
+	 *      maxMessage = "De naam kan niet langer dan {{ limit }} tekens zijn"
 	 * )
 	 * @Groups({"read", "write"})
 	 * @ApiProperty(
@@ -315,8 +320,8 @@ class Locatie implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 25,
 	 *      max = 2000,
-	 *      minMessage = "Your first name must be at least {{ limit }} characters long",
-	 *      maxMessage = "Your first name cannot be longer than {{ limit }} characters")
+	 *      minMessage = "Uw samenvatting moet ten minste bestaan uit{{ limit }} tekens",
+	 *      maxMessage = "Uw samenvatting kan niet langer zijn dan {{ limit }} tekens")
 	 *
 	 * @Groups({"read", "write"})
 	 * @ApiProperty(
@@ -347,8 +352,8 @@ class Locatie implements StringableInterface
 	 * @Assert\Length(
 	 *      min = 25,
 	 *      max = 2000,
-	 *      minMessage = "Your first name must be at least {{ limit }} characters long",
-	 *      maxMessage = "Your first name cannot be longer than {{ limit }} characters")
+	 *      minMessage = "Uw beschrijving moet ten minste bestaan uit{{ limit }} tekens",
+	 *      maxMessage = "Uw beschrijving kan niet langer zijn dan {{ limit }} tekens")
 	 *
 	 * @Groups({"read", "write"})
 	 * @ApiProperty(
