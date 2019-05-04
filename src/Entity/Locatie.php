@@ -7,6 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -188,14 +192,36 @@ class Locatie implements StringableInterface
 	public $identificatie;
 	
 	/**
-	 * De Organisatie waartoe deze locatie behoort.
+	 * Het RSIN van de organisatie waartoe deze Ambtenaar behoord. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven
 	 *
-	 * @var \App\Entity\Organisatie
-	 * @ORM\ManyToOne(targetEntity="\App\Entity\Organisatie", cascade={"persist", "remove"}, inversedBy="locaties")
-	 * @ORM\JoinColumn(referencedColumnName="id")
-	 *
+	 * @var integer
+	 * @ORM\Column(
+	 *     type     = "integer",
+	 *     length   = 9
+	 * )
+	 * @Assert\Length(
+	 *      min = 8,
+	 *      max = 9,
+	 *      minMessage = "Het RSIN moet ten minste {{ limit }} karakters lang zijn",
+	 *      maxMessage = "Het RSIN kan niet langer dan {{ limit }} karakters zijn"
+	 * )
+	 * @Groups({"read"})
+	 * @ApiFilter(SearchFilter::class, strategy="exact")
+	 * @ApiFilter(OrderFilter::class)
+	 * @ApiProperty(
+	 *     attributes={
+	 *         "openapi_context"={
+	 *             "title"="bronOrganisatie",
+	 *             "type"="string",
+	 *             "example"="123456789",
+	 *             "required"="true",
+	 *             "maxLength"=9,
+	 *             "minLength"=8
+	 *         }
+	 *     }
+	 * )
 	 */
-	public $bronOrganisatie;
+	public $bronOrganisatie;	
 	
 	/**
 	 * URL-referentie naar het afbeeldings document.
@@ -395,33 +421,6 @@ class Locatie implements StringableInterface
 	public $agenda;
 	
 	/**
-	 * Het tijdstip waarop deze entiteit is aangemaakt
-	 *
-	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
-	 * @Gedmo\Timestampable(on="create")
-	 * @Assert\DateTime
-	 * @ORM\Column(
-	 *     type     = "datetime"
-	 * )
-	 * @Groups({"read"})
-	 */
-	public $registratiedatum;
-	
-	/**
-	 * Het tijdstip waarop deze entiteit voor het laats is gewijzigd
-	 *
-	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
-	 * @Gedmo\Timestampable(on="update")
-	 * @Assert\DateTime
-	 * @ORM\Column(
-	 *     type     = "datetime", 
-	 *     nullable	= true
-	 * )
-	 * @Groups({"read"})
-	 */
-	public $wijzigingsdatum;	
-	
-	/**
 	 * De taal waarin de informatie van deze locatie is opgesteld <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>
 	 *
 	 * @var string Een Unicode language identifier, ofwel RFC 3066 taalcode.
@@ -467,7 +466,34 @@ class Locatie implements StringableInterface
 	public $producten;
 	
 	/**
-	 * De contactpersoon voor deze locatie.
+	 * Het tijdstip waarop dit Ambtenaren object is aangemaakt
+	 *
+	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
+	 * @Gedmo\Timestampable(on="create")
+	 * @Assert\DateTime
+	 * @ORM\Column(
+	 *     type     = "datetime"
+	 * )
+	 * @Groups({"read"})
+	 */
+	public $registratiedatum;
+	
+	/**
+	 * Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.
+	 *
+	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
+	 * @Gedmo\Timestampable(on="update")
+	 * @Assert\DateTime
+	 * @ORM\Column(
+	 *     type     = "datetime",
+	 *     nullable	= true
+	 * )
+	 * @Groups({"read"})
+	 */
+	public $wijzigingsdatum;
+	
+	/**
+	 * Het contact persoon voor deze ambtenaar
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -482,14 +508,24 @@ class Locatie implements StringableInterface
 	 *             "example"="https://ref.tst.vng.cloud/zrc/api/v1/zaken/24524f1c-1c14-4801-9535-22007b8d1b65",
 	 *             "required"="true",
 	 *             "maxLength"=255,
-	 *             "format"="uri",
-	 *             "description"="URL-referentie naar de BRP inschrijving van dit persoon"
+	 *             "format"="uri"
 	 *         }
 	 *     }
 	 * )
 	 * @Gedmo\Versioned
 	 */
 	public $contactPersoon;
+	
+	/**
+	 * De eigenaar (applicatie) van dit object, wordt bepaald aan de hand van de geauthenticeerde applicatie die de ambtenaar heeft aangemaakt
+	 *
+	 * @var App\Entity\Applicatie $eigenaar
+	 *
+	 * @Gedmo\Blameable(on="create")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Applicatie")
+	 * @Groups({"read"})
+	 */
+	public $eigenaar;
 	
 	/**
 	 * @return string

@@ -60,7 +60,7 @@ parameters:
               # The general endpoints  
             - name: Locatie
               description: "Het object locatie beschrijft een geografische locatie met de daarbij horende kenmerken"
-            - name: Organisatie
+            - name: Applicatie
               description: "De Organisatie wordt gebruikt om standaard configuraties in te regelen"  
             # - name: User
             #   description: "Een gebruiker, of in dit geval een applicatie gebonden aan een JWT token behorende tot een organisatie"
@@ -69,9 +69,9 @@ parameters:
             - name: Locaties
               tags:
               - Locatie
-            - name: Organisatie
+            - name: Applicatie
               tags:
-              - Organisatie
+              - Applicatie
             #   - User
         
 services:
