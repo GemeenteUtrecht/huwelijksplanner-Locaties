@@ -452,7 +452,7 @@ class Locatie implements StringableInterface
 	public $producten;
 	
 	/**
-	 * Het tijdstip waarop dit Ambtenaren object is aangemaakt
+	 * Het tijdstip waarop dit Locatie object is aangemaakt
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="create")
@@ -465,7 +465,7 @@ class Locatie implements StringableInterface
 	public $registratiedatum;
 	
 	/**
-	 * Het tijdstip waarop dit Ambtenaren object voor het laatst is gewijzigd.
+	 * Het tijdstip waarop dit Locatie object voor het laatst is gewijzigd.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="update")
@@ -581,5 +581,13 @@ class Locatie implements StringableInterface
 	public function getProducts()
 	{
 		return $this->products;
+	}
+
+	/**
+	 * Get Url
+	 */
+	public function getUrl()
+	{
+		return 'http://locaties.demo.zaakonline.nl/locaties/'.$this->id;
 	}
 }
