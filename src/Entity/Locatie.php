@@ -23,7 +23,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 /**
  * Locatie
  * 
- * Een locatie object beschrijft een bag locatie of deel daarvan, als stapelbaar object kan alles betreffen van een kantoor gebouw tot specifieke kamer. 
+ * Een Locatie object beschrijft een bag locatie of deel daarvan, als stapelbaar object kan alles betreffen van een kantoor gebouw tot specifieke kamer. 
  * 
  * @category   	Entity
  *
@@ -42,7 +42,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/locaties",
  *  		"openapi_context" = {
- * 				"summary" = "Haalt een verzameling van locaties op"
+ * 				"summary" = "Haalt een verzameling van Locaties op"
  *  		}
  *  	},
  *  	"post"={
@@ -50,7 +50,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"personen"={"groups"={"write"}},
  *      	"path"="/locaties",
  *  		"openapi_context" = {
- * 				"summary" = "Maak een locatie aan"
+ * 				"summary" = "Maak een Locatie aan"
  *  		}
  *  	}
  *  },
@@ -60,7 +60,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Haal een specifieke locatie op"
+ * 				"summary" = "Haal een specifieke Locatie op"
  *  		}
  *  	},
  *     "put"={
@@ -68,7 +68,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Vervang een specifieke locatie"
+ * 				"summary" = "Vervang een specifieke Locatie"
  *  		}
  *  	},
  *     "delete"={
@@ -76,7 +76,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *  		"denormalizationContext"={"groups"={"write"}},
  *      	"path"="/locaties/{id}",
  *  		"openapi_context" = {
- * 				"summary" = "Verwijder een specifieke locatie"
+ * 				"summary" = "Verwijder een specifieke Locatie"
  *  		}
  *  	},
  *     "log"={
@@ -87,7 +87,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"denormalization_context"={"groups"={"write"}},
  *         	"openapi_context" = {
  *         		"summary" = "Logboek inzien",
- *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object",
+ *         		"description" = "Geeft een array van eerdere versies en wijzigingen van dit object.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -101,8 +101,8 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
  *     		"normalization_context"={"groups"={"read"}},
  *     		"denormalization_context"={"groups"={"write"}},
  *         	"openapi_context" = {
- *         		"summary" = "Versie teruggedraaid",
- *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt",
+ *         		"summary" = "Versie herstellen",
+ *         		"description" = "Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt.",
  *          	"consumes" = {
  *              	"application/json",
  *               	"text/html",
@@ -137,7 +137,7 @@ use ActivityLogBundle\Entity\Interfaces\StringableInterface;
 class Locatie implements StringableInterface
 {
 	/**
-	 * Het identifacitie nummer van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production
+	 * Het identifacitie nummer van deze Locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production
 	 *
 	 * @var int|null
 	 *
@@ -150,7 +150,7 @@ class Locatie implements StringableInterface
 	private $id;
 	
 	/**
-	 * De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
+	 * De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>
 	 *
 	 * @var string
 	 * @ORM\Column(
@@ -168,7 +168,7 @@ class Locatie implements StringableInterface
 	 *         "openapi_context"={
 	 *             "type"="string",
 	 *             "example"="6a36c2c4-213e-4348-a467-dfa3a30f64aa",
-	 *             "description"="De unieke identificatie van dit object de organisatie die dit object heeft gecreeerd.",
+	 *             "description"="De unieke identificatie van dit object de organisatie die dit object heeft gecreëerd.",
 	 *             "maxLength"=40
 	 *         }
 	 *     }
@@ -178,7 +178,7 @@ class Locatie implements StringableInterface
 	public $identificatie;
 	
 	/**
-	 * Het RSIN van de organisatie waartoe deze Locatie behoord. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven
+	 * Het RSIN van de organisatie waartoe deze Locatie behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN wordt bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven
 	 *
 	 * @var integer
 	 * @ORM\Column(
@@ -260,7 +260,7 @@ class Locatie implements StringableInterface
 	public $film;
 	
 	/**
-	 * URL-referentie naar de BAG inschrijving van deze locatie.
+	 * URL-referentie naar de BAG inschrijving van deze Locatie.
 	 *
 	 * @var string
      * @Gedmo\Versioned
@@ -278,7 +278,7 @@ class Locatie implements StringableInterface
 	 *             "required"="true",
 	 *             "maxLength"=200,
 	 *             "format"="uri",
-	 *             "description"="URL-referentie naar de BAG inschrijving van deze locatie"
+	 *             "description"="URL-referentie naar de BAG inschrijving van deze Locatie"
 	 *         }
 	 *     }
 	 * )
@@ -286,7 +286,7 @@ class Locatie implements StringableInterface
 	public $bag;
 	
 	/**
-	 * De naam van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>
+	 * De naam van deze Locatie. <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>
 	 *
 	 * @var string
 	 *
@@ -319,7 +319,7 @@ class Locatie implements StringableInterface
 	public $naam;
 	
 	/**
-	 * Een samenvattende tekst over deze locatie  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>
+	 * Een korte samenvattende tekst over deze Locatie bedoeld ter introductie.  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>
 	 *
 	 * @var string
 	 *
@@ -343,7 +343,7 @@ class Locatie implements StringableInterface
 	 *             "type"="string",
 	 *             "minLength"=25,
 	 *             "maxLength"=2000,
-	 *             "example"="Deze prachtige locatie is zeker het aanbevelen waard"
+	 *             "example"="Deze prachtige Locatie is zeker het aanbevelen waard"
 	 *         }
 	 *     }
 	 * )
@@ -351,7 +351,7 @@ class Locatie implements StringableInterface
 	public $samenvatting;
 	
 	/** 
-	 * Een beschrijvende tekst over deze locatie  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>
+	 * Een uitgebreide beschrijvende tekst over deze Locatie bedoeld ter verdere verduidelijking.  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>
 	 *
 	 * @var string
 	 *
@@ -383,7 +383,7 @@ class Locatie implements StringableInterface
 	public $beschrijving;
 		
 	/**
-	 * URL-referentie naar de agenda van deze locatie
+	 * URL-referentie naar de agenda van deze Locatie.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
@@ -398,7 +398,7 @@ class Locatie implements StringableInterface
 	 *             "required"="true",
 	 *             "maxLength"=255,
 	 *             "format"="uri",
-	 *             "description"="URL-referentie naar de agenda van deze locatie"
+	 *             "description"="URL-referentie naar de agenda van deze Locatie."
 	 *         }
 	 *     }
 	 * )
@@ -407,7 +407,7 @@ class Locatie implements StringableInterface
 	public $agenda;
 	
 	/**
-	 * De taal waarin de informatie van deze locatie is opgesteld <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>
+	 * De taal waarin de informatie van deze Locatie is opgesteld. <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>
 	 *
 	 * @var string Een Unicode language identifier, ofwel RFC 3066 taalcode.
 	 *
@@ -430,7 +430,7 @@ class Locatie implements StringableInterface
 	public $taal = 'nl';
 	
 	/**
-	 * Producten die bij deze locatie horen.
+	 * Producten die bij deze Locatie horen.
 	 *
 	 * @var array
 	 * @ORM\Column(
@@ -444,7 +444,7 @@ class Locatie implements StringableInterface
 	 *             "title"="producten",
 	 *             "type"="array",
 	 *             "example"="[]",
-	 *             "description"="Producten die bij deze locatie horen"
+	 *             "description"="Producten die bij deze Locatie horen"
 	 *         }
 	 *     }
 	 * )
@@ -452,7 +452,7 @@ class Locatie implements StringableInterface
 	public $producten;
 	
 	/**
-	 * Het tijdstip waarop dit Locatie object is aangemaakt
+	 * Het tijdstip waarop dit Locatie object is aangemaakt.
 	 *
 	 * @var string Een "Y-m-d H:i:s" waarde bijvoorbeeld "2018-12-31 13:33:05" ofwel "Jaar-dag-maand uur:minuut:seconde"
 	 * @Gedmo\Timestampable(on="create")
@@ -479,7 +479,7 @@ class Locatie implements StringableInterface
 	public $wijzigingsdatum;
 	
 	/**
-	 * Het contact persoon voor deze Locatie
+	 * De contactpersoon voor deze Locatie.
 	 *
 	 * @ORM\Column(
 	 *     type     = "string",
