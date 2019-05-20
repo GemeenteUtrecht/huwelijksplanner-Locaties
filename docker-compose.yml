@@ -29,7 +29,7 @@ services:
       
   # The PHP container
   locaties-component:
-    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-component:V.0.0.1
+    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-component:0.0.21
     build:
       context: ./ 
       dockerfile: docker/php/Dockerfile
@@ -43,7 +43,7 @@ services:
       
   # The NGINX container
   locaties-api:
-    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-nginx:V.0.0.1
+    image: ${CONTAINER_REGISTRY_BASE}/${CONTAINER_PROJECT_NAME}-nginx:0.0.21
     build: 
       context: ./ 
       dockerfile: docker/nginx/Dockerfile

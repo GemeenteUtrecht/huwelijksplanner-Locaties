@@ -32,9 +32,10 @@
 		"symfony/yaml": "4.2.*"
 	},
 	"require-dev" : {
-		"api-platform/schema-generator" : "^2.1",
-		"doctrine/doctrine-fixtures-bundle" : "^3.1",
-		"symfony/profiler-pack" : "^1.0"
+		"api-platform/schema-generator": "^2.1",
+		"doctrine/doctrine-fixtures-bundle": "^3.1",
+		"symfony/maker-bundle": "^1.11",
+		"symfony/profiler-pack": "^1.0"
 	},
 	"config" : {
 		"preferred-install" : {

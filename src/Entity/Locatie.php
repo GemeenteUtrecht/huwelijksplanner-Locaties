@@ -516,7 +516,8 @@ class Locatie implements StringableInterface
 	/**
 	 * @return string
 	 */
-	public function toString(){
+	public function toString()
+	{
 		return $this->naam;
 	}
 		
@@ -539,50 +540,12 @@ class Locatie implements StringableInterface
 		// We want to add some default stuff here like products, productgroups, paymentproviders, templates, clientGroups, mailinglists and ledgers
 		return $this;
 	}
-	
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
-	
-	/**
-	 * Add Product
-	 *
-	 * @param  \App\Entity\Product $product
-	 * @return Order
-	 */
-	public function addProduct(\App\Entity\Product $product)
-	{
-		$this->products[] = $product;
-		
-		return $this;
-	}
-	
-	/**
-	 * Remove Product
-	 *
-	 * @param \App\Entity\Product $product
-	 */
-	public function removeProduct(\App\Entity\Product $product)
-	{
-		$this->products->removeElement($product);
-	}
-	
-	/**
-	 * Get Product
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getProducts()
-	{
-		return $this->products;
-	}
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+	
 	/**
 	 * Get Url
 	 */
@@ -590,4 +553,172 @@ class Locatie implements StringableInterface
 	{
 		return 'http://locaties.demo.zaakonline.nl/locaties/'.$this->id;
 	}
+
+    public function getIdentificatie(): ?string
+    {
+        return $this->identificatie;
+    }
+
+    public function setIdentificatie(?string $identificatie): self
+    {
+        $this->identificatie = $identificatie;
+
+        return $this;
+    }
+
+    public function getBronOrganisatie(): ?int
+    {
+        return $this->bronOrganisatie;
+    }
+
+    public function setBronOrganisatie(int $bronOrganisatie): self
+    {
+        $this->bronOrganisatie = $bronOrganisatie;
+
+        return $this;
+    }
+
+    public function getAfbeelding(): ?string
+    {
+        return $this->afbeelding;
+    }
+
+    public function setAfbeelding(?string $afbeelding): self
+    {
+        $this->afbeelding = $afbeelding;
+
+        return $this;
+    }
+
+    public function getFilm(): ?string
+    {
+        return $this->film;
+    }
+
+    public function setFilm(?string $film): self
+    {
+        $this->film = $film;
+
+        return $this;
+    }
+
+    public function getBag(): ?string
+    {
+        return $this->bag;
+    }
+
+    public function setBag(?string $bag): self
+    {
+        $this->bag = $bag;
+
+        return $this;
+    }
+
+    public function getNaam(): ?string
+    {
+        return $this->naam;
+    }
+
+    public function setNaam(string $naam): self
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    public function getSamenvatting(): ?string
+    {
+        return $this->samenvatting;
+    }
+
+    public function setSamenvatting(string $samenvatting): self
+    {
+        $this->samenvatting = $samenvatting;
+
+        return $this;
+    }
+
+    public function getBeschrijving(): ?string
+    {
+        return $this->beschrijving;
+    }
+
+    public function setBeschrijving(string $beschrijving): self
+    {
+        $this->beschrijving = $beschrijving;
+
+        return $this;
+    }
+
+    public function getAgenda(): ?string
+    {
+        return $this->agenda;
+    }
+
+    public function setAgenda(?string $agenda): self
+    {
+        $this->agenda = $agenda;
+
+        return $this;
+    }
+
+    public function getTaal(): ?string
+    {
+        return $this->taal;
+    }
+
+    public function setTaal(string $taal): self
+    {
+        $this->taal = $taal;
+
+        return $this;
+    }
+
+    public function getRegistratiedatum(): ?\DateTimeInterface
+    {
+        return $this->registratiedatum;
+    }
+
+    public function setRegistratiedatum(\DateTimeInterface $registratiedatum): self
+    {
+        $this->registratiedatum = $registratiedatum;
+
+        return $this;
+    }
+
+    public function getWijzigingsdatum(): ?\DateTimeInterface
+    {
+        return $this->wijzigingsdatum;
+    }
+
+    public function setWijzigingsdatum(?\DateTimeInterface $wijzigingsdatum): self
+    {
+        $this->wijzigingsdatum = $wijzigingsdatum;
+
+        return $this;
+    }
+
+    public function getContactPersoon(): ?string
+    {
+        return $this->contactPersoon;
+    }
+
+    public function setContactPersoon(?string $contactPersoon): self
+    {
+        $this->contactPersoon = $contactPersoon;
+
+        return $this;
+    }
+
+    public function getEigenaar(): ?Applicatie
+    {
+        return $this->eigenaar;
+    }
+
+    public function setEigenaar(?Applicatie $eigenaar): self
+    {
+        $this->eigenaar = $eigenaar;
+
+        return $this;
+    }
 }

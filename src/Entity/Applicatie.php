@@ -372,53 +372,154 @@ class Applicatie implements UserInterface, StringableInterface
 	 * @return string
 	 */
 	public function toString(){
-		return $this->name;
-	}
+                                                   		return $this->name;
+                                                   	}
 	
 	/**
 	 * Vanuit rendering perspectief (voor bijvoorbeeld logging of berichten) is het belangrijk dat we een entiteit altijd naar string kunnen omzetten.
 	 */
 	public function __toString()
-	{
-		return $this->toString();
-	}
+                                                   	{
+                                                   		return $this->toString();
+                                                   	}
 	
 	// We need a full name atribute for the loging bundle
 	public function getFullname(): ?string
-	{
-		return $this->name;
-	}
+                                                   	{
+                                                   		return $this->name;
+                                                   	}
 	
 	public function isUser(?UserInterface $applicatie = null): bool
-	{
-		return $applicatie instanceof self && $applicatie->id === $this->id;
-	}
+                                                   	{
+                                                   		return $applicatie instanceof self && $applicatie->id === $this->id;
+                                                   	}
 	
 	public function __construct($username)
-	{
-		$this->isActive = true;
-		$this->username = $username;
-	}
+                                                   	{
+                                                   		$this->isActive = true;
+                                                   		$this->username = $username;
+                                                   	}
 	public function getUsername()
-	{
-		return $this->name;
-	}	
+                                                   	{
+                                                   		return $this->name;
+                                                   	}	
 	
 	public function getPassword()
-	{
-		return $this->sleutel;
-	}
+                                                   	{
+                                                   		return $this->sleutel;
+                                                   	}
 	
 	public function getSalt()
-	{
-		return null;
-	}
+                                                   	{
+                                                   		return null;
+                                                   	}
 	
 	public function getRoles()
-	{
-		return array('ROLE_USER');
-	}
+                                                   	{
+                                                   		return array('ROLE_USER');
+                                                   	}
 	public function eraseCredentials()
-	{
-	}
+                                                   	{
+                                                   	}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNaam(): ?string
+    {
+        return $this->naam;
+    }
+
+    public function setNaam(string $naam): self
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    public function getSleutel(): ?string
+    {
+        return $this->sleutel;
+    }
+
+    public function setSleutel(string $sleutel): self
+    {
+        $this->sleutel = $sleutel;
+
+        return $this;
+    }
+
+    public function getScopes(): ?string
+    {
+        return $this->scopes;
+    }
+
+    public function setScopes(string $scopes): self
+    {
+        $this->scopes = $scopes;
+
+        return $this;
+    }
+
+    public function getOrganisatie(): ?int
+    {
+        return $this->organisatie;
+    }
+
+    public function setOrganisatie(int $organisatie): self
+    {
+        $this->organisatie = $organisatie;
+
+        return $this;
+    }
+
+    public function getIsActief(): ?bool
+    {
+        return $this->isActief;
+    }
+
+    public function setIsActief(bool $isActief): self
+    {
+        $this->isActief = $isActief;
+
+        return $this;
+    }
+
+    public function getRegistratiedatum(): ?\DateTimeInterface
+    {
+        return $this->registratiedatum;
+    }
+
+    public function setRegistratiedatum(\DateTimeInterface $registratiedatum): self
+    {
+        $this->registratiedatum = $registratiedatum;
+
+        return $this;
+    }
+
+    public function getWijzigingsdatum(): ?\DateTimeInterface
+    {
+        return $this->wijzigingsdatum;
+    }
+
+    public function setWijzigingsdatum(?\DateTimeInterface $wijzigingsdatum): self
+    {
+        $this->wijzigingsdatum = $wijzigingsdatum;
+
+        return $this;
+    }
+
+    public function getContactPersoon(): ?string
+    {
+        return $this->contactPersoon;
+    }
+
+    public function setContactPersoon(?string $contactPersoon): self
+    {
+        $this->contactPersoon = $contactPersoon;
+
+        return $this;
+    }
 }
