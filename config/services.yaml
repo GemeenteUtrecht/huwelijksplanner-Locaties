@@ -64,7 +64,7 @@ parameters:
                 
                 Let er bij het meegeven van JWT tokens op dat deze moet worden voorafgegaan door een Bearer en een spatie, onder de header Authorization. De volledig naam wordt daarmee: 'Authorization: Bearer [TOKEN]'.
 
-            version: 0.0.1
+            version: 0.0.20 Alpha
             title: 'Locaties API'
             termsOfService: 'http://www.zaakonline.nl/terms/'
             contact:
@@ -83,7 +83,7 @@ parameters:
         tags:
               # The general endpoints  
             - name: Locatie
-              description: "Het object locatie beschrijft een geografische locatie met de daarbij horende kenmerken"
+              description: "Het object locatie beschrijft een geografische locatie met de daarbij horende kenmerken."
             - name: Applicatie
               description: "Een software applicatie binnen een organisatie die gebruik maakt van een component voor het creëren, ophalen, bijwerken of verwijderen van gegevens. Applicaties kunnen worden geregistreerd om namens een organisatie te handelen op een component. In deze zin zijn applicaties dan ook onderdeel van het beheerproces, infrastructuur en configuratie van een component in plaats van het datamodel dat door het component wordt geleverd."  
              # Grouping the endpoint  

@@ -53,7 +53,7 @@ info:
     
     Let er bij het meegeven van JWT tokens op dat deze moet worden voorafgegaan door een Bearer en een spatie, onder de header Authorization. De volledig naam wordt daarmee: 'Authorization: Bearer [TOKEN]'.
     
-  version: 0.0.1
+  version: '0.0.20 Alpha'
   title: 'Locaties API'
   termsOfService: 'http://www.zaakonline.nl/terms/'
   contact:
@@ -70,7 +70,7 @@ paths:
   '/applicatie/{id}':
     get:
       summary: 'Haal op'
-      description: 'Haal een Applicatie op'
+      description: 'Haal een Applicatie op.'
       tags:
         - Applicatie
       operationId: getApplicatieItem
@@ -98,7 +98,7 @@ paths:
           description: 'Resource not found'
     put:
       summary: 'Werk bij'
-      description: 'Werk een Applicatie bij'
+      description: 'Werk een Applicatie bij.'
       tags:
         - Applicatie
       operationId: putApplicatieItem
@@ -141,7 +141,7 @@ paths:
   '/applicatie/{id}/log':
     get:
       summary: Logboek
-      description: 'Bekijk de wijzigingen op dit Applicatie object'
+      description: 'Bekijk de wijzigingen op dit Applicatie object.'
       tags:
         - Applicatie
       operationId: logApplicatieItem
@@ -346,7 +346,7 @@ paths:
             type: string
   /locaties:
     get:
-      summary: 'Haalt een verzameling van locaties op'
+      summary: 'Haalt een verzameling van Locaties op'
       tags:
         - Locatie
       operationId: getLocatieCollection
@@ -393,7 +393,7 @@ paths:
           schema:
             type: string
     post:
-      summary: 'Maak een locatie aan'
+      summary: 'Maak een Locatie aan'
       tags:
         - Locatie
       operationId: postLocatieCollection
@@ -434,7 +434,7 @@ paths:
         description: 'The new Locatie resource'
   '/locaties/{id}':
     get:
-      summary: 'Haal een specifieke locatie op'
+      summary: 'Haal een specifieke Locatie op'
       tags:
         - Locatie
       operationId: getLocatieItem
@@ -461,7 +461,7 @@ paths:
         404:
           description: 'Resource not found'
     put:
-      summary: 'Vervang een specifieke locatie'
+      summary: 'Vervang een specifieke Locatie'
       tags:
         - Locatie
       operationId: putLocatieItem
@@ -502,7 +502,7 @@ paths:
               $ref: '#/components/schemas/Locatie'
         description: 'The updated Locatie resource'
     delete:
-      summary: 'Verwijder een specifieke locatie'
+      summary: 'Verwijder een specifieke Locatie'
       tags:
         - Locatie
       operationId: deleteLocatieItem
@@ -521,7 +521,7 @@ paths:
   '/locaties/{id}/log':
     get:
       summary: 'Logboek inzien'
-      description: 'Geeft een array van eerdere versies en wijzigingen van dit object'
+      description: 'Geeft een array van eerdere versies en wijzigingen van dit object.'
       consumes:
         - application/json
         - text/html
@@ -552,8 +552,8 @@ paths:
           description: 'Resource not found'
   '/locaties/{id}/revert/{version}':
     post:
-      summary: 'Versie teruggedraaid'
-      description: 'Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt'
+      summary: 'Versie herstellen'
+      description: 'Herstel een eerdere versie van dit object. Dit is een destructieve actie die niet ongedaan kan worden gemaakt.'
       consumes:
         - application/json
         - text/html
@@ -584,7 +584,7 @@ paths:
   /login_check:
     post:
       summary: 'Token halen'
-      description: 'Inloggen als Applicatie en JWT Token ophalen'
+      description: 'Inloggen als Applicatie en JWT Token ophalen.'
       tags:
         - Applicatie
       operationId: loginApplicatieCollection
@@ -626,7 +626,7 @@ paths:
   /registreer:
     post:
       summary: Registreren
-      description: 'Registreer een nieuwe Applicatie voor dit component'
+      description: 'Registreer een nieuwe Applicatie voor dit component.'
       tags:
         - Applicatie
       operationId: registerApplicatieCollection
@@ -699,10 +699,10 @@ components:
           minLength: 8
           description: 'Het RSIN van de organisatie waartoe deze Applicatie behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef.'
         isActief:
-          description: 'Wordt gebruikt om aan te geven of deze applicatie actief is (en mag inloggen) of dat deze slechts wordt gebruikt voor archief doeleinden'
+          description: 'Wordt gebruikt om aan te geven of deze applicatie actief is (en mag inloggen) of dat deze slechts wordt gebruikt voor archief doeleinden.'
           type: boolean
         registratiedatum:
-          description: 'Het tijdstip waarop deze Applicatie is aangemaakt'
+          description: 'Het tijdstip waarop deze Applicatie is aangemaakt.'
           type: string
           format: date-time
         wijzigingsdatum:
@@ -765,10 +765,10 @@ components:
           minLength: 8
           description: 'Het RSIN van de organisatie waartoe deze Applicatie behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef.'
         isActief:
-          description: 'Wordt gebruikt om aan te geven of deze applicatie actief is (en mag inloggen) of dat deze slechts wordt gebruikt voor archief doeleinden'
+          description: 'Wordt gebruikt om aan te geven of deze applicatie actief is (en mag inloggen) of dat deze slechts wordt gebruikt voor archief doeleinden.'
           type: boolean
         registratiedatum:
-          description: 'Het tijdstip waarop deze Applicatie is aangemaakt'
+          description: 'Het tijdstip waarop deze Applicatie is aangemaakt.'
           type: string
           format: date-time
         wijzigingsdatum:
@@ -824,7 +824,7 @@ components:
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         bronOrganisatie:
           title: bronOrganisatie
@@ -833,7 +833,7 @@ components:
           required: 'true'
           maxLength: 9
           minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze Locatie behoord. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
+          description: 'Het RSIN van de organisatie waartoe deze Locatie behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN wordt bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven'
         afbeelding:
           title: BRP
           type: url
@@ -857,9 +857,9 @@ components:
           required: 'true'
           maxLength: 200
           format: uri
-          description: 'URL-referentie naar de BAG inschrijving van deze locatie.'
+          description: 'URL-referentie naar de BAG inschrijving van deze Locatie.'
         naam:
-          description: 'De naam van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>'
+          description: 'De naam van deze Locatie. <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>'
           type: string
         samenvatting:
           description: 'Een korte samenvattende tekst over deze Locatie bedoeld ter introductie.  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>'
@@ -873,19 +873,19 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'URL-referentie naar de agenda van deze locatie'
+          description: 'URL-referentie naar de agenda van deze Locatie.'
         taal:
-          description: 'De taal waarin de informatie van deze locatie is opgesteld <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>'
+          description: 'De taal waarin de informatie van deze Locatie is opgesteld. <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>'
           type: string
         producten:
           title: producten
           type: array
           example: '[]'
-          description: 'Producten die bij deze locatie horen.'
+          description: 'Producten die bij deze Locatie horen.'
           items:
             type: string
         registratiedatum:
-          description: 'Het tijdstip waarop dit Locatie object is aangemaakt'
+          description: 'Het tijdstip waarop dit Locatie object is aangemaakt.'
           type: string
           format: date-time
         wijzigingsdatum:
@@ -899,13 +899,13 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor deze Locatie'
+          description: 'De contactpersoon voor deze Locatie.'
         eigenaar:
           description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
           type: string
         id:
           readOnly: true
-          description: 'Het identifacitie nummer van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production'
+          description: 'Het identifacitie nummer van deze Locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production'
           type: integer
         product:
           description: 'Add Product'
@@ -928,12 +928,12 @@ components:
       properties:
         id:
           readOnly: true
-          description: 'Het identifacitie nummer van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production'
+          description: 'Het identifacitie nummer van deze Locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production'
           type: integer
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         bronOrganisatie:
           title: bronOrganisatie
@@ -942,7 +942,7 @@ components:
           required: 'true'
           maxLength: 9
           minLength: 8
-          description: 'Het RSIN van de organisatie waartoe deze Locatie behoord. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN word bepaald aan de hand van de gauthenticeerde applicatie en kan niet worden overschreven'
+          description: 'Het RSIN van de organisatie waartoe deze Locatie behoort. Dit moet een geldig RSIN zijn van 9 nummers en voldoen aan https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef. <br> Het RSIN wordt bepaald aan de hand van de geauthenticeerde applicatie en kan niet worden overschreven'
         afbeelding:
           title: BRP
           type: url
@@ -966,9 +966,9 @@ components:
           required: 'true'
           maxLength: 200
           format: uri
-          description: 'URL-referentie naar de BAG inschrijving van deze locatie.'
+          description: 'URL-referentie naar de BAG inschrijving van deze Locatie.'
         naam:
-          description: 'De naam van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>'
+          description: 'De naam van deze Locatie. <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>'
           type: string
         samenvatting:
           description: 'Een korte samenvattende tekst over deze Locatie bedoeld ter introductie.  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>'
@@ -982,19 +982,19 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'URL-referentie naar de agenda van deze locatie'
+          description: 'URL-referentie naar de agenda van deze Locatie.'
         taal:
-          description: 'De taal waarin de informatie van deze locatie is opgesteld <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>'
+          description: 'De taal waarin de informatie van deze Locatie is opgesteld. <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>'
           type: string
         producten:
           title: producten
           type: array
           example: '[]'
-          description: 'Producten die bij deze locatie horen.'
+          description: 'Producten die bij deze Locatie horen.'
           items:
             type: string
         registratiedatum:
-          description: 'Het tijdstip waarop dit Locatie object is aangemaakt'
+          description: 'Het tijdstip waarop dit Locatie object is aangemaakt.'
           type: string
           format: date-time
         wijzigingsdatum:
@@ -1008,7 +1008,7 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor deze Locatie'
+          description: 'De contactpersoon voor deze Locatie.'
         eigenaar:
           description: 'Met eigenaar wordt bijgehouden welke  applicatie verantwoordelijk is voor het object, en daarvoor de rechten beheerd en uitgeeft. In die zin moet de eigenaar dan ook worden gezien in de trant van autorisatie en configuratie in plaats van als onderdeel van het datamodel.'
           type: string
@@ -1023,7 +1023,7 @@ components:
         identificatie:
           type: string
           example: 6a36c2c4-213e-4348-a467-dfa3a30f64aa
-          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreeerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
+          description: 'De unieke identificatie van dit object binnen de organisatie die dit object heeft gecreëerd. <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a>'
           maxLength: 40
         afbeelding:
           title: BRP
@@ -1048,9 +1048,9 @@ components:
           required: 'true'
           maxLength: 200
           format: uri
-          description: 'URL-referentie naar de BAG inschrijving van deze locatie.'
+          description: 'URL-referentie naar de BAG inschrijving van deze Locatie.'
         naam:
-          description: 'De naam van deze locatie <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>'
+          description: 'De naam van deze Locatie. <br /><b>Schema:</b> <a href="https://schema.org/name">https://schema.org/name</a>'
           type: string
         samenvatting:
           description: 'Een korte samenvattende tekst over deze Locatie bedoeld ter introductie.  <br /><b>Schema:</b> <a href="https://schema.org/description">https://schema.org/description</a>'
@@ -1064,15 +1064,15 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'URL-referentie naar de agenda van deze locatie'
+          description: 'URL-referentie naar de agenda van deze Locatie.'
         taal:
-          description: 'De taal waarin de informatie van deze locatie is opgesteld <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>'
+          description: 'De taal waarin de informatie van deze Locatie is opgesteld. <br /><b>Schema:</b> <a href="https://www.ietf.org/rfc/rfc3066.txt">https://www.ietf.org/rfc/rfc3066.txt</a>'
           type: string
         producten:
           title: producten
           type: array
           example: '[]'
-          description: 'Producten die bij deze locatie horen.'
+          description: 'Producten die bij deze Locatie horen.'
           items:
             type: string
         contactPersoon:
@@ -1082,7 +1082,7 @@ components:
           required: 'true'
           maxLength: 255
           format: uri
-          description: 'Het contact persoon voor deze Locatie'
+          description: 'De contactpersoon voor deze Locatie.'
       required:
         - naam
         - samenvatting
@@ -1103,7 +1103,7 @@ externalDocs:
 tags:
   -
     name: Locatie
-    description: 'Het object locatie beschrijft een geografische locatie met de daarbij horende kenmerken'
+    description: 'Het object locatie beschrijft een geografische locatie met de daarbij horende kenmerken.'
   -
     name: Applicatie
     description: 'Een software applicatie binnen een organisatie die gebruik maakt van een component voor het creëren, ophalen, bijwerken of verwijderen van gegevens. Applicaties kunnen worden geregistreerd om namens een organisatie te handelen op een component. In deze zin zijn applicaties dan ook onderdeel van het beheerproces, infrastructuur en configuratie van een component in plaats van het datamodel dat door het component wordt geleverd.'
