@@ -907,14 +907,6 @@ components:
           readOnly: true
           description: 'Het identifacitie nummer van deze Locatie <br /><b>Schema:</b> <a href="https://schema.org/identifier">https://schema.org/identifier</a><br /><br /><b>Note</b> This is for devolopment purposes, the INT ID wil be replaced by BLOB UUID on production'
           type: integer
-        product:
-          description: 'Add Product'
-          type: array
-          items:
-            type: string
-        products:
-          description: 'Get Product'
-          type: string
         url:
           readOnly: true
           description: 'Get Url'
